@@ -523,14 +523,7 @@ public class NormalCalUI implements ActionListener {
 						NormalCalUI.this.resultText.setText(split[0]);
 						NormalCalUI.this.addResultText.setText(split[1]);
 					}
-					if (NormalCalUI.this.parmName1.getText().equals("航迹长度")) {
-						String width = parmsService.lengthToWidth(parm1, parm2);
-						NormalCalUI.this.resultText.setText(width);
-					}
-					if (NormalCalUI.this.parmName1.getText().equals("保护区全宽")) {
-						String length = parmsService.widthToLength(parm1, parm2);
-						NormalCalUI.this.resultText.setText(length);
-					}
+
 				}
 				if ((CommonUtils.ifStringIsDigital(parm1)) && (!parm1.isEmpty())
 						&& (CommonUtils.ifStringIsDigital(parm2)) && (!parm2.isEmpty())
@@ -560,6 +553,14 @@ public class NormalCalUI implements ActionListener {
 					if (NormalCalUI.this.resultName.getText().equals("到目标距离")) {
 						String dist = parmsService.getDist(parm1, parm3, parm2);
 						NormalCalUI.this.resultText.setText(dist);
+					}
+					if (NormalCalUI.this.parmName1.getText().equals("航迹长度")) {
+						String width = parmsService.lengthToWidth(parm1, parm2, parm3);
+						NormalCalUI.this.resultText.setText(width);
+					}
+					if (NormalCalUI.this.parmName1.getText().equals("保护区全宽")) {
+						String length = parmsService.widthToLength(parm1, parm2, parm3);
+						NormalCalUI.this.resultText.setText(length);
 					}
 				}
 				if ((CommonUtils.ifStringIsDigital(parm1)) && (!parm1.isEmpty())
@@ -721,6 +722,7 @@ public class NormalCalUI implements ActionListener {
 		}
 		if ((temp.equals(this.lengthMenuItem)) || (temp.equals(this.distMenuItem)) || (temp.equals(this.weightMenuItem))
 				|| (temp.equals(this.jwdMenuItem)) || (temp.equals(this.angleMenuItem))) {
+			this.clearButton.doClick();
 			if (inputName.contains("/")) {
 				String[] split = inputName.split("/");
 				this.parmName1.setText(split[0]);
@@ -747,9 +749,9 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_3.setVisible(false);
 			this.addButton_2.setVisible(false);
 			this.addButton_1.setVisible(false);
-			this.clearButton.doClick();
 		}
 		if (temp.equals(this.tempMenuItem)) {
+			this.clearButton.doClick();
 			if (inputName.contains("/")) {
 				String[] split = inputName.split("/");
 				this.parmName1.setText(split[0]);
@@ -777,9 +779,9 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_3.setVisible(false);
 			this.addButton_2.setVisible(false);
 			this.addButton_1.setVisible(false);
-			this.clearButton.doClick();
 		}
 		if (temp.equals(this.speedMenuItem)) {
+			this.clearButton.doClick();
 			if (inputName.contains("/")) {
 				String[] split = inputName.split("/");
 				this.parmName1.setText(split[0]);
@@ -809,9 +811,9 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_3.setVisible(false);
 			this.addButton_2.setVisible(false);
 			this.addButton_1.setVisible(false);
-			this.clearButton.doClick();
 		}
 		if (temp.equals(this.climbMenuItem)) {
+			this.clearButton.doClick();
 			this.parmName1.setText("爬升率(ft/min)");
 			this.parmName2.setVisible(true);
 			this.parmText2.setVisible(true);
@@ -836,9 +838,9 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_3.setVisible(false);
 			this.addButton_2.setVisible(false);
 			this.addButton_1.setVisible(false);
-			this.clearButton.doClick();
 		}
 		if (temp.equals(this.chazhifaMenuItem)) {
+			this.clearButton.doClick();
 			this.parmName1.setText("第一母数据");
 			this.parmName2.setVisible(true);
 			this.parmText2.setVisible(true);
@@ -866,9 +868,9 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_3.setVisible(false);
 			this.addButton_2.setVisible(false);
 			this.addButton_1.setVisible(false);
-			this.clearButton.doClick();
 		}
 		if (temp.equals(this.obsMenuItem)) {
+			this.clearButton.doClick();
 			this.parmName1.setText("起始点高度");
 			this.parmName2.setVisible(true);
 			this.parmText2.setVisible(true);
@@ -891,7 +893,6 @@ public class NormalCalUI implements ActionListener {
 			this.resultName.setText("高度/高");
 			this.changeButton.setVisible(false);
 			this.isTurn.setVisible(false);
-			this.clearButton.doClick();
 			this.addButton_3.setVisible(true);
 			this.addButton_3.setText("获取梯度");
 			this.addButton_2.setVisible(true);
@@ -900,6 +901,7 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_1.setText("获取高度");
 		}
 		if (temp.equals(this.rwyCondMenuItem)) {
+			this.clearButton.doClick();
 			this.parmName1.setText("干跑道距离");
 			this.parmName2.setVisible(false);
 			this.parmText2.setVisible(false);
@@ -923,9 +925,9 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_2.setVisible(false);
 			this.addButton_1.setVisible(false);
 			this.isTurn.setVisible(false);
-			this.clearButton.doClick();
 		}
 		if (temp.equals(this.overOBSMenuItem)) {
+			this.clearButton.doClick();
 			this.parmName1.setText("REF0到35ft点距离");
 			this.parmName2.setVisible(true);
 			this.parmText2.setVisible(true);
@@ -953,9 +955,9 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_2.setVisible(false);
 			this.addButton_1.setVisible(false);
 			this.isTurn.setVisible(true);
-			this.clearButton.doClick();
 		}
 		if (temp.equals(this.ARCFunctionMenuItem)) {
+			this.clearButton.doClick();
 			this.parmName1.setText("圆弧半径");
 			this.parmName2.setVisible(true);
 			this.parmText2.setVisible(true);
@@ -978,7 +980,6 @@ public class NormalCalUI implements ActionListener {
 			this.addResultName.setText("弦长");
 			this.changeButton.setVisible(false);
 			this.isTurn.setVisible(false);
-			this.clearButton.doClick();
 			this.addButton_3.setVisible(true);
 			this.addButton_3.setText("已知弦长");
 			this.addButton_2.setVisible(true);
@@ -987,12 +988,15 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_1.setText("已知弧长");
 		}
 		if (temp.equals(this.bhqMenuItem)) {
+			this.clearButton.doClick();
 			this.parmName1.setText("航迹长度");
 			this.parmName2.setVisible(true);
 			this.parmName2.setText("保护区起始半宽");
 			this.parmText2.setVisible(true);
-			this.parmName3.setVisible(false);
-			this.parmText3.setVisible(false);
+			this.parmName3.setText("保护区扩展率(%)");
+			this.parmName3.setVisible(true);
+			this.parmText3.setText("12.5");
+			this.parmText3.setVisible(true);
 			this.parmName4.setVisible(false);
 			this.parmText4.setVisible(false);
 			this.parmName5.setVisible(false);
@@ -1011,7 +1015,7 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_2.setVisible(false);
 			this.addButton_1.setVisible(false);
 			this.isTurn.setVisible(false);
-			this.clearButton.doClick();
+
 		}
 	}
 }

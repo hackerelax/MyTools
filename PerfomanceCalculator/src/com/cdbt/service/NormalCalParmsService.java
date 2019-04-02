@@ -137,7 +137,8 @@ public class NormalCalParmsService {
 
 	public String getDecimal(String du, String fen, String miao) {
 		double result = CommonUtils.strToDouble(du).doubleValue()
-				+ (CommonUtils.strToDouble(fen).doubleValue() + CommonUtils.strToDouble(miao).doubleValue() / 60.0D) / 60.0D;
+				+ (CommonUtils.strToDouble(fen).doubleValue() + CommonUtils.strToDouble(miao).doubleValue() / 60.0D)
+						/ 60.0D;
 		return CommonUtils.doubleToStr(Double.valueOf(result), Integer.valueOf(6));
 	}
 
@@ -248,11 +249,12 @@ public class NormalCalParmsService {
 		"  结果：\n        35ft点到参考0点水平距离为：" + CommonUtils.doubleToStr(Double.valueOf(Start), Integer.valueOf(0))
 				+ "米\n        改平开始点到参考0点距离为：" + CommonUtils.doubleToStr(Double.valueOf(Secend), Integer.valueOf(0))
 				+ "米\n        改平结束点到参考0点距离为：" + CommonUtils.doubleToStr(Double.valueOf(Third), Integer.valueOf(0))
-				+ "米\n        改平总高为：" + CommonUtils.doubleToStr(Double.valueOf(Height), Integer.valueOf(1)) + "米   ;  改平净高为："
-				+ CommonUtils.doubleToStr(Double.valueOf(netHeight0), Integer.valueOf(1)) + "米\n        " + location
-				+ "\n        飞机飞至该处的飞行总高为：" + CommonUtils.doubleToStr(Double.valueOf(GrossHeight), Integer.valueOf(1))
-				+ "米\n        飞机飞至该处的飞行总高为：" + CommonUtils.doubleToStr(Double.valueOf(netHeight), Integer.valueOf(1))
-				+ "米\n        该处的障碍物限制高为：" + CommonUtils.doubleToStr(Double.valueOf(resHeight), Integer.valueOf(1)) + "米";
+				+ "米\n        改平总高为：" + CommonUtils.doubleToStr(Double.valueOf(Height), Integer.valueOf(1))
+				+ "米   ;  改平净高为：" + CommonUtils.doubleToStr(Double.valueOf(netHeight0), Integer.valueOf(1))
+				+ "米\n        " + location + "\n        飞机飞至该处的飞行总高为："
+				+ CommonUtils.doubleToStr(Double.valueOf(GrossHeight), Integer.valueOf(1)) + "米\n        飞机飞至该处的飞行总高为："
+				+ CommonUtils.doubleToStr(Double.valueOf(netHeight), Integer.valueOf(1)) + "米\n        该处的障碍物限制高为："
+				+ CommonUtils.doubleToStr(Double.valueOf(resHeight), Integer.valueOf(1)) + "米";
 	}
 
 	public String arcLengthToOther(String R, String ARCLength) {
@@ -283,12 +285,14 @@ public class NormalCalParmsService {
 	}
 
 	public String rToAng(String rad) {
-		return CommonUtils.doubleToStr(Double.valueOf(CommonUtils.strToDouble(rad).doubleValue() * 180.0D / 3.141592653589793D),
+		return CommonUtils.doubleToStr(
+				Double.valueOf(CommonUtils.strToDouble(rad).doubleValue() * 180.0D / 3.141592653589793D),
 				Integer.valueOf(4));
 	}
 
 	public String angToR(String ang) {
-		return CommonUtils.doubleToStr(Double.valueOf(CommonUtils.strToDouble(ang).doubleValue() * 3.141592653589793D / 180.0D),
+		return CommonUtils.doubleToStr(
+				Double.valueOf(CommonUtils.strToDouble(ang).doubleValue() * 3.141592653589793D / 180.0D),
 				Integer.valueOf(4));
 	}
 
@@ -300,14 +304,16 @@ public class NormalCalParmsService {
 		return Double.valueOf(angle.doubleValue() * 3.141592653589793D / 180.0D);
 	}
 
-	public String lengthToWidth(String leng, String start) {
-		double result = (CommonUtils.strToDouble(leng) / 8 + CommonUtils.strToDouble(start)) * 2;
+	public String lengthToWidth(String leng, String start, String bl) {
+		double result = (CommonUtils.strToDouble(leng) * CommonUtils.strToDouble(bl) / 100
+				+ CommonUtils.strToDouble(start)) * 2;
 
 		return CommonUtils.doubleToStr(result, 3);
 	}
 
-	public String widthToLength(String width, String start) {
-		double result = (CommonUtils.strToDouble(width) / 2 - CommonUtils.strToDouble(start)) * 8;
+	public String widthToLength(String width, String start, String bl) {
+		double result = (CommonUtils.strToDouble(width) / 2 - CommonUtils.strToDouble(start))
+				/ (CommonUtils.strToDouble(bl) / 100);
 
 		return CommonUtils.doubleToStr(result, 3);
 	}

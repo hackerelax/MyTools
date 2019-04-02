@@ -24,6 +24,7 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import com.cdbt.service.FuelCalParmsService;
 import com.cdbt.utils.CommonUtils;
@@ -89,6 +90,7 @@ public class FuelCalculatorUI implements ActionListener {
 	private JLabel aClimbDistUnit;
 	private JTextField waitFFText;
 	private JLabel waitFFUnit;
+	private JTextField crewWeghtText;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -562,6 +564,7 @@ public class FuelCalculatorUI implements ActionListener {
 				String altFuelflow = FuelCalculatorUI.this.altFuelFlowText.getText().trim();
 				String altDist = FuelCalculatorUI.this.altDistText.getText().trim();
 				String waiFuelflow = FuelCalculatorUI.this.waitFFText.getText().trim();
+				String crewWt = FuelCalculatorUI.this.crewWeghtText.getText().trim();
 				String altClimbTime;
 				String altDescFuel;
 				String altDescDist;
@@ -611,7 +614,8 @@ public class FuelCalculatorUI implements ActionListener {
 								climbFuel, descFuel, climbDist, descDist, climbTime, descTime, cruiseTAS,
 								cruiseFuelflow, altClimbFuel, altDescFuel, altClimbDist, altDescDist, altClimbTime,
 								altDescTime, altTAS, altFuelflow, altDist, waiFuelflow, FuelCalculatorUI.this.yunying,
-								FuelCalculatorUI.this.flightRule, FuelCalculatorUI.this.maxCrewCheck.isSelected());
+								FuelCalculatorUI.this.flightRule, FuelCalculatorUI.this.maxCrewCheck.isSelected(),
+								crewWt);
 						FuelCalculatorUI.this.inputContext.setText(input);
 
 						String result = FuelCalculatorUI.this.parms.getDistResult(changeParm, passCount, cargo,
@@ -619,7 +623,7 @@ public class FuelCalculatorUI implements ActionListener {
 								cruiseFuelflow, altClimbFuel, altDescFuel, altClimbDist, altDescDist, altClimbTime,
 								altDescTime, altTAS, altFuelflow, altDist, waiFuelflow,
 								FuelCalculatorUI.this.maxCrewCheck.isSelected(),
-								FuelCalculatorUI.this.engUnitItem.isSelected());
+								FuelCalculatorUI.this.engUnitItem.isSelected(), crewWt);
 
 						String[] split = result.split(",");
 						FuelCalculatorUI.this.distAndTimeContext.setText(split[0]);
@@ -630,7 +634,8 @@ public class FuelCalculatorUI implements ActionListener {
 								climbFuel, descFuel, climbDist, descDist, climbTime, descTime, cruiseTAS,
 								cruiseFuelflow, altClimbFuel, altDescFuel, altClimbDist, altDescDist, altClimbTime,
 								altDescTime, altTAS, altFuelflow, altDist, waiFuelflow, FuelCalculatorUI.this.yunying,
-								FuelCalculatorUI.this.flightRule, FuelCalculatorUI.this.maxCrewCheck.isSelected());
+								FuelCalculatorUI.this.flightRule, FuelCalculatorUI.this.maxCrewCheck.isSelected(),
+								crewWt);
 						FuelCalculatorUI.this.inputContext.setText(input);
 
 						String result = FuelCalculatorUI.this.parms.getWeightResult(changeParm, passCount, cargo,
@@ -638,7 +643,7 @@ public class FuelCalculatorUI implements ActionListener {
 								cruiseFuelflow, altClimbFuel, altDescFuel, altClimbDist, altDescDist, altClimbTime,
 								altDescTime, altTAS, altFuelflow, altDist, waiFuelflow,
 								FuelCalculatorUI.this.maxCrewCheck.isSelected(),
-								FuelCalculatorUI.this.engUnitItem.isSelected());
+								FuelCalculatorUI.this.engUnitItem.isSelected(), crewWt);
 
 						String[] split = result.split(",");
 						FuelCalculatorUI.this.distAndTimeContext.setText(split[0]);
@@ -1027,6 +1032,13 @@ public class FuelCalculatorUI implements ActionListener {
 		waitFF.setBounds(550, 10, 80, 15);
 		panel_4.add(waitFF);
 
+		JLabel crewWeight = new JLabel("机组重量");
+		crewWeight.setHorizontalAlignment(SwingConstants.CENTER);
+		crewWeight.setForeground(Color.BLUE);
+		crewWeight.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		crewWeight.setBounds(640, 11, 80, 15);
+		panel_4.add(crewWeight);
+
 		JPanel panel_5 = new JPanel();
 		panel_5.setLayout(null);
 		panel_5.setBackground(Color.DARK_GRAY);
@@ -1100,6 +1112,20 @@ public class FuelCalculatorUI implements ActionListener {
 		this.altDistText.setText("200");
 		this.altDistText.setHorizontalAlignment(0);
 		this.altDistText.setColumns(10);
+
+		crewWeghtText = new JTextField();
+		crewWeghtText.setText("91");
+		crewWeghtText.setHorizontalAlignment(SwingConstants.CENTER);
+		crewWeghtText.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		crewWeghtText.setColumns(10);
+		crewWeghtText.setBounds(640, 10, 80, 21);
+		this.crewWeghtText.addKeyListener(key);
+		panel_5.add(crewWeghtText);
+		this.crewWeghtText.addFocusListener(new FocusAdapter() {
+			public void focusGained(FocusEvent e) {
+				FuelCalculatorUI.this.crewWeghtText.selectAll();
+			}
+		});
 
 		this.altDistText.addFocusListener(new FocusAdapter() {
 			public void focusGained(FocusEvent e) {
@@ -1175,6 +1201,13 @@ public class FuelCalculatorUI implements ActionListener {
 		this.waitFFUnit.setBounds(553, 10, 80, 15);
 		panel_6.add(this.waitFFUnit);
 
+		JLabel lblKg = new JLabel("kg/P");
+		lblKg.setHorizontalAlignment(SwingConstants.CENTER);
+		lblKg.setForeground(Color.RED);
+		lblKg.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		lblKg.setBounds(643, 10, 80, 15);
+		panel_6.add(lblKg);
+
 		JPanel panel_7 = new JPanel();
 		panel_7.setBackground(Color.DARK_GRAY);
 		panel_7.setBounds(846, 57, 261, 280);
@@ -1212,8 +1245,8 @@ public class FuelCalculatorUI implements ActionListener {
 					this.parms.getACInfo(acResult);
 					this.acText.setText(temp.getText());
 					this.basicContext.setText("  机型：" + split1[0] + "\n  基本空机重：" + split1[1] + "kg\n  最少机组人数："
-							+ split1[9] + "人\n  最多机组人数：" + split1[10] + "人\n  最大起飞重量：" + split1[2] + "kg\n 最大乘客数量： "
-							+ split1[3] + " 人\n  最大可用燃油量：" + split1[4] + "kg\n  最大商载：" + split1[5] + "kg\n 总最大载量："
+							+ split1[9] + "人\n  最多机组人数：" + split1[10] + "人\n  最大起飞重量：" + split1[2] + "kg\n  最大乘客数量： "
+							+ split1[3] + " 人\n  最大可用燃油量：" + split1[4] + "kg\n  最大商载：" + split1[5] + "kg\n  总最大载量："
 							+ split1[6] + "kg\n  行李舱最大载量： " + split1[7] + "kg\n  最大使用高度限制： " + split1[8] + "米");
 				}
 			}

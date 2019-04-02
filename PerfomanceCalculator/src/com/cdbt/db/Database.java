@@ -69,8 +69,9 @@ public class Database {
 				String y12e = "Y12E-3392-5670-16-1230-1984-2138-360-7000-2-2";
 				String y12f = "Y12F-4596-8400-19-2454-3000-3622-300-7000-2-2";
 				String c90GTx = "C90GTx-3150-4581-7-1133-1241-1431-159-9144-1-2";
-				String phenom300 = "Phenom300-5150-8150-6-2428-1200-3000-260-13716-1-2";
+				String phenom300 = "Phenom300-5150-8150-9-2428-1200-3000-260-13716-1-2";
 				String c208B = "C208B-2393-3995-12-599-1463-1618-640-7620-1-2";
+				String c172R = "C172R-767-1111-2-153.7-344-344-54.4-4100-1-2";
 				FileOutputStream os = new FileOutputStream(file);
 				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
 				bw.write(k350i);
@@ -87,6 +88,8 @@ public class Database {
 				bw.newLine();
 				bw.write(c208B);
 				bw.newLine();
+				bw.write(c172R);
+				bw.newLine();
 				bw.close();
 				System.out.println("Done!");
 			}
@@ -102,7 +105,7 @@ public class Database {
 			if (!file.exists()) {
 				file.createNewFile();
 				String ifr = "IFR-45-200";
-				String vfr = "VFR-45-0";
+				String vfr = "VFR-30-0";
 				FileOutputStream os = new FileOutputStream(file);
 				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
 				bw.write(ifr);
