@@ -73,6 +73,7 @@ public class NormalCalUI implements ActionListener {
 	private JRadioButtonMenuItem ARCFunctionMenuItem;
 	private JRadioButtonMenuItem angleMenuItem;
 	private JRadioButtonMenuItem bhqMenuItem;
+	private JRadioButtonMenuItem iastotas;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -341,6 +342,12 @@ public class NormalCalUI implements ActionListener {
 		calGroup.add(this.bhqMenuItem);
 		calGroup.add(this.angleMenuItem);
 
+		iastotas = new JRadioButtonMenuItem("IAS/TAS");
+		iastotas.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+		transMenu.add(iastotas);
+		calGroup.add(iastotas);
+		iastotas.addActionListener(this);
+
 		this.unitsMenu = new JMenu("单位选择(m)");
 		this.unitsMenu.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		menuBar.add(this.unitsMenu);
@@ -561,6 +568,12 @@ public class NormalCalUI implements ActionListener {
 					if (NormalCalUI.this.parmName1.getText().equals("保护区全宽")) {
 						String length = parmsService.widthToLength(parm1, parm2, parm3);
 						NormalCalUI.this.resultText.setText(length);
+					}
+					if (NormalCalUI.this.parmName1.getText().equals("IAS")) {
+						String result = parmsService.iasToTas(parm1, parm2, parm3, engMenuItem.isSelected());
+						String[] split = result.split("-");
+						NormalCalUI.this.resultText.setText(split[0]);
+						NormalCalUI.this.addResultText.setText(split[1]);
 					}
 				}
 				if ((CommonUtils.ifStringIsDigital(parm1)) && (!parm1.isEmpty())
@@ -1011,6 +1024,36 @@ public class NormalCalUI implements ActionListener {
 			this.textArea.setVisible(false);
 			this.resultName.setText("保护区全宽");
 			this.changeButton.setVisible(true);
+			this.addButton_3.setVisible(false);
+			this.addButton_2.setVisible(false);
+			this.addButton_1.setVisible(false);
+			this.isTurn.setVisible(false);
+
+		}
+		if (temp.equals(this.iastotas)) {
+			this.clearButton.doClick();
+			this.parmName1.setText("IAS");
+			this.parmName2.setVisible(true);
+			this.parmName2.setText("ISA偏差");
+			this.parmText2.setVisible(true);
+			this.parmName3.setText("高度");
+			this.parmName3.setVisible(true);
+			this.parmText3.setVisible(true);
+			this.parmName4.setVisible(false);
+			this.parmText4.setVisible(false);
+			this.parmName5.setVisible(false);
+			this.parmText5.setVisible(false);
+			this.parmName6.setVisible(false);
+			this.parmText6.setVisible(false);
+			this.resultName.setVisible(true);
+			this.resultText.setVisible(true);
+			this.addResultName.setVisible(true);
+			this.addResultName.setText("K值");
+			this.addResultText.setVisible(true);
+			this.scrollPane.setVisible(false);
+			this.textArea.setVisible(false);
+			this.resultName.setText("TAS");
+			this.changeButton.setVisible(false);
 			this.addButton_3.setVisible(false);
 			this.addButton_2.setVisible(false);
 			this.addButton_1.setVisible(false);

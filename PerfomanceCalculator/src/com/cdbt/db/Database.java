@@ -64,12 +64,14 @@ public class Database {
 			File file = new File(this.ACInfoLocation);
 			if (!file.exists()) {
 				file.createNewFile();
+				// 名称-空重-最大起飞重量-乘客数-最大可用燃油-最大商载-总最大载量-行李舱最大载量-最少机组-最大机组
 				String k350i = "K350i-4454-6804-9-1638-1154-2334-250-10668-1-2";
 				String pc12 = "PC12-2796-4740-9-1226-1209-1849-700-9144-1-2";
 				String y12e = "Y12E-3392-5670-16-1230-1984-2138-360-7000-2-2";
 				String y12f = "Y12F-4596-8400-19-2454-3000-3622-300-7000-2-2";
 				String c90GTx = "C90GTx-3150-4581-7-1133-1241-1431-159-9144-1-2";
 				String phenom300 = "Phenom300-5150-8150-9-2428-1200-3000-260-13716-1-2";
+				String e190 = "E190-28000-50300-108-13192-12800-12800-2540-12497-2-2";
 				String c208B = "C208B-2393-3995-12-599-1463-1618-640-7620-1-2";
 				String c172R = "C172R-767-1111-2-153.7-344-344-54.4-4100-1-2";
 				FileOutputStream os = new FileOutputStream(file);
@@ -84,11 +86,13 @@ public class Database {
 				bw.newLine();
 				bw.write(c90GTx);
 				bw.newLine();
-				bw.write(phenom300);
-				bw.newLine();
 				bw.write(c208B);
 				bw.newLine();
 				bw.write(c172R);
+				bw.newLine();
+				bw.write(phenom300);
+				bw.newLine();
+				bw.write(e190);
 				bw.newLine();
 				bw.close();
 				System.out.println("Done!");

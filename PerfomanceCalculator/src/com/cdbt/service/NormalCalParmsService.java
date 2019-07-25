@@ -252,7 +252,7 @@ public class NormalCalParmsService {
 				+ "米\n        改平总高为：" + CommonUtils.doubleToStr(Double.valueOf(Height), Integer.valueOf(1))
 				+ "米   ;  改平净高为：" + CommonUtils.doubleToStr(Double.valueOf(netHeight0), Integer.valueOf(1))
 				+ "米\n        " + location + "\n        飞机飞至该处的飞行总高为："
-				+ CommonUtils.doubleToStr(Double.valueOf(GrossHeight), Integer.valueOf(1)) + "米\n        飞机飞至该处的飞行总高为："
+				+ CommonUtils.doubleToStr(Double.valueOf(GrossHeight), Integer.valueOf(1)) + "米\n        飞机飞至该处的飞行净高为："
 				+ CommonUtils.doubleToStr(Double.valueOf(netHeight), Integer.valueOf(1)) + "米\n        该处的障碍物限制高为："
 				+ CommonUtils.doubleToStr(Double.valueOf(resHeight), Integer.valueOf(1)) + "米";
 	}
@@ -316,5 +316,21 @@ public class NormalCalParmsService {
 				/ (CommonUtils.strToDouble(bl) / 100);
 
 		return CommonUtils.doubleToStr(result, 3);
+	}
+
+	public String iasToTas(String IAS, String VAR, String ALT, boolean eng) {
+		double ias = CommonUtils.strToDouble(IAS);
+		double var = CommonUtils.strToDouble(VAR);
+		double alt = CommonUtils.strToDouble(ALT);
+		if (eng) {
+			double K = 171233 * Math.pow(((288 + var) - 0.00198 * alt), 0.5) / Math.pow((288 - 0.00198 * alt), 2.628);
+			double TAS = ias * K;
+			return CommonUtils.doubleToStr(TAS, 2) + "-" + CommonUtils.doubleToStr(K, 4);
+		} else {
+			double K = 171233 * Math.pow(((288 + var) - 0.006496 * alt), 0.5) / Math.pow((288 - 0.006496 * alt), 2.628);
+			double TAS = ias * K;
+			return CommonUtils.doubleToStr(TAS, 2) + "-" + CommonUtils.doubleToStr(K, 4);
+		}
+
 	}
 }

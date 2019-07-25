@@ -6,14 +6,14 @@ import java.util.regex.Pattern;
 public class CommonUtils {
 
 	public static boolean ifStringIsDigital(String str) {
-		Pattern pattern = Pattern.compile("^[0-9]+(.[0-9]+)?$");
+		Pattern pattern = Pattern.compile("^[-\\+]?[0-9]+(.[0-9]+)?$");
 		Matcher matcher = pattern.matcher(str);
 		boolean result = matcher.matches();
 		return result;
 	}
 
 	public static boolean ifStringIsInteger(String str) {
-		Pattern pattern = Pattern.compile("[0-9]*");
+		Pattern pattern = Pattern.compile("^[-\\+]?[0-9]*");
 		Matcher matcher = pattern.matcher(str);
 		boolean result = matcher.matches();
 		return result;
