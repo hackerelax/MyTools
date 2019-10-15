@@ -318,19 +318,30 @@ public class NormalCalParmsService {
 		return CommonUtils.doubleToStr(result, 3);
 	}
 
-	public String iasToTas(String IAS, String VAR, String ALT, boolean eng) {
+	public String iasToTas(String IAS, String VAR, String ALT, String turnPD, boolean eng) {
 		double ias = CommonUtils.strToDouble(IAS);
 		double var = CommonUtils.strToDouble(VAR);
 		double alt = CommonUtils.strToDouble(ALT);
+		double turnpd = CommonUtils.strToDouble(turnPD);
+		double K;
+		double TAS;
+		double R;
+		double r;
 		if (eng) {
-			double K = 171233 * Math.pow(((288 + var) - 0.00198 * alt), 0.5) / Math.pow((288 - 0.00198 * alt), 2.628);
-			double TAS = ias * K;
-			return CommonUtils.doubleToStr(TAS, 2) + "-" + CommonUtils.doubleToStr(K, 4);
+			K = 171233 * Math.pow(((288 + var) - 0.00198 * alt), 0.5) / Math.pow((288 - 0.00198 * alt), 2.628);
+			TAS = ias * K;
+			R = 3431 * Math.tan(turnpd * Math.PI / 180) / (Math.PI * TAS);
+			r = TAS / (20 * Math.PI * R) * 1.852;
+			TAS = TAS * 1.852;
 		} else {
-			double K = 171233 * Math.pow(((288 + var) - 0.006496 * alt), 0.5) / Math.pow((288 - 0.006496 * alt), 2.628);
-			double TAS = ias * K;
-			return CommonUtils.doubleToStr(TAS, 2) + "-" + CommonUtils.doubleToStr(K, 4);
+			K = 171233 * Math.pow(((288 + var) - 0.006496 * alt), 0.5) / Math.pow((288 - 0.006496 * alt), 2.628);
+			TAS = ias * K;
+			R = 6355 * Math.tan(turnpd * Math.PI / 180) / (Math.PI * TAS);
+			r = TAS / (20 * Math.PI * R);
 		}
-
+		return "结果：\n       真空速为： " + CommonUtils.doubleToStr(TAS, 2) + " km/h = "
+				+ CommonUtils.doubleToStr(TAS / 1.852, 2) + " kn\n       K值为：" + CommonUtils.doubleToStr(K, 4)
+				+ "\n       转弯率为：" + CommonUtils.doubleToStr(R, 3) + " °/s\n       转弯半径为："
+				+ CommonUtils.doubleToStr(r, 3) + " km";
 	}
 }

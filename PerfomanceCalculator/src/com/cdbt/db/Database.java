@@ -64,16 +64,18 @@ public class Database {
 			File file = new File(this.ACInfoLocation);
 			if (!file.exists()) {
 				file.createNewFile();
-				// 名称-空重-最大起飞重量-乘客数-最大可用燃油-最大商载-总最大载量-行李舱最大载量-最少机组-最大机组
+				// 名称-空重-最大起飞重量-乘客数-最大可用燃油-最大商载-总最大载量-行李舱最大载量-升限-最少机组-最大机组
 				String k350i = "K350i-4454-6804-9-1638-1154-2334-250-10668-1-2";
-				String pc12 = "PC12-2796-4740-9-1226-1209-1849-700-9144-1-2";
+				String pc12 = "PC12-2796-4740-9-1226-1024-1849-700-9144-1-2";
 				String y12e = "Y12E-3392-5670-16-1230-1984-2138-360-7000-2-2";
 				String y12f = "Y12F-4596-8400-19-2454-3000-3622-300-7000-2-2";
-				String c90GTx = "C90GTx-3150-4581-7-1133-1241-1431-159-9144-1-2";
+				String c90GTx = "C90GTx-3150-4581-5-1133-1046-1431-159-9144-1-2";
 				String phenom300 = "Phenom300-5150-8150-9-2428-1200-3000-260-13716-1-2";
 				String e190 = "E190-28000-50300-108-13192-12800-12800-2540-12497-2-2";
-				String c208B = "C208B-2393-3995-12-599-1463-1618-640-7620-1-2";
-				String c172R = "C172R-767-1111-2-153.7-344-344-54.4-4100-1-2";
+				String c208B = "C208B-2393-3995-9-1009-1463-1618-640-7620-1-2";
+				String c172S = "C172S-755-1156-3-144-406-406-54.4-4100-1-1";
+				String kodiak100 = "KODIAK100-1712-3290-9-987-1601-1601-90-7620-1-2";
+				String da42L = "DA42L-1255-1785-3-208-530-530-75-5486-1-1";
 				FileOutputStream os = new FileOutputStream(file);
 				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
 				bw.write(k350i);
@@ -88,7 +90,11 @@ public class Database {
 				bw.newLine();
 				bw.write(c208B);
 				bw.newLine();
-				bw.write(c172R);
+				bw.write(c172S);
+				bw.newLine();
+				bw.write(kodiak100);
+				bw.newLine();
+				bw.write(da42L);
 				bw.newLine();
 				bw.write(phenom300);
 				bw.newLine();

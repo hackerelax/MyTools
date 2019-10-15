@@ -185,6 +185,7 @@ public class OBSCalUI {
 		CalButton.setForeground(Color.RED);
 
 		ActionListener listener = new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 				OBSCalParmsService parms = new OBSCalParmsService();
 				String rwyEndAlt = OBSCalUI.this.rwyEndAltText.getText().trim();

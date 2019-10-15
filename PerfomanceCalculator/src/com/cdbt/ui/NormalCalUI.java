@@ -406,23 +406,17 @@ public class NormalCalUI implements ActionListener {
 		this.clearButton.setForeground(Color.BLUE);
 		this.clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (NormalCalUI.this.overOBSMenuItem.isSelected()) {
-					NormalCalUI.this.parmText5.setText("");
-					NormalCalUI.this.parmText6.setText("");
-					NormalCalUI.this.resultText.setText("");
-					NormalCalUI.this.addResultText.setText("");
-					NormalCalUI.this.textArea.setText("");
-				} else {
-					NormalCalUI.this.parmText1.setText("");
-					NormalCalUI.this.parmText2.setText("");
-					NormalCalUI.this.parmText3.setText("");
-					NormalCalUI.this.parmText4.setText("");
-					NormalCalUI.this.parmText5.setText("");
-					NormalCalUI.this.parmText6.setText("");
-					NormalCalUI.this.resultText.setText("");
-					NormalCalUI.this.addResultText.setText("");
-					NormalCalUI.this.textArea.setText("");
-				}
+
+				NormalCalUI.this.parmText1.setText("");
+				NormalCalUI.this.parmText2.setText("");
+				NormalCalUI.this.parmText3.setText("");
+				NormalCalUI.this.parmText4.setText("");
+				NormalCalUI.this.parmText5.setText("");
+				NormalCalUI.this.parmText6.setText("");
+				NormalCalUI.this.resultText.setText("");
+				NormalCalUI.this.addResultText.setText("");
+				NormalCalUI.this.textArea.setText("");
+
 			}
 		});
 		this.calButton = new JButton("计算");
@@ -570,10 +564,8 @@ public class NormalCalUI implements ActionListener {
 						NormalCalUI.this.resultText.setText(length);
 					}
 					if (NormalCalUI.this.parmName1.getText().equals("IAS")) {
-						String result = parmsService.iasToTas(parm1, parm2, parm3, engMenuItem.isSelected());
-						String[] split = result.split("-");
-						NormalCalUI.this.resultText.setText(split[0]);
-						NormalCalUI.this.addResultText.setText(split[1]);
+						String result = parmsService.iasToTas(parm1, parm2, parm3, parm4, engMenuItem.isSelected());
+						NormalCalUI.this.textArea.setText(result);
 					}
 				}
 				if ((CommonUtils.ifStringIsDigital(parm1)) && (!parm1.isEmpty())
@@ -1039,20 +1031,19 @@ public class NormalCalUI implements ActionListener {
 			this.parmName3.setText("高度");
 			this.parmName3.setVisible(true);
 			this.parmText3.setVisible(true);
-			this.parmName4.setVisible(false);
-			this.parmText4.setVisible(false);
+			this.parmName4.setVisible(true);
+			this.parmName4.setText("转弯坡度");
+			this.parmText4.setVisible(true);
 			this.parmName5.setVisible(false);
 			this.parmText5.setVisible(false);
 			this.parmName6.setVisible(false);
 			this.parmText6.setVisible(false);
-			this.resultName.setVisible(true);
-			this.resultText.setVisible(true);
-			this.addResultName.setVisible(true);
-			this.addResultName.setText("K值");
-			this.addResultText.setVisible(true);
-			this.scrollPane.setVisible(false);
-			this.textArea.setVisible(false);
-			this.resultName.setText("TAS");
+			this.resultName.setVisible(false);
+			this.resultText.setVisible(false);
+			this.addResultName.setVisible(false);
+			this.addResultText.setVisible(false);
+			this.scrollPane.setVisible(true);
+			this.textArea.setVisible(true);
 			this.changeButton.setVisible(false);
 			this.addButton_3.setVisible(false);
 			this.addButton_2.setVisible(false);
