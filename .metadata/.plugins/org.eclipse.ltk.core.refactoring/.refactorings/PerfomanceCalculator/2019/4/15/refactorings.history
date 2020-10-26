@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;OBSCalUI.java&apos; to &apos;ProgramCalculator/src/com.cdbt.ui&apos;&#x0D;&#x0A;- Original project: &apos;PerfomanceCalculator&apos;&#x0D;&#x0A;- Destination element: &apos;ProgramCalculator/src/com.cdbt.ui&apos;&#x0D;&#x0A;- Original element: &apos;com.cdbt.ui.OBSCalUI.java&apos;" description="Copy compilation unit" destination="=ProgramCalculator/src&lt;com.cdbt.ui" element1="/src&lt;com.cdbt.ui{OBSCalUI.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1555039147818" units="1" version="1.0"/>
+</session>
