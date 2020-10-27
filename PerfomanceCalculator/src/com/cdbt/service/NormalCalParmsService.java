@@ -199,8 +199,8 @@ public class NormalCalParmsService {
 		return CommonUtils.doubleToStr(Double.valueOf(dist), Integer.valueOf(0));
 	}
 
-	public String getObstacle(String RtoStart, String RtoSecend, String RtoThird, String accHeight, String RtoTarget,
-			String grossHeight, boolean isTurn) {
+	public String getObstacle(String SecendStart, String SecendEnd, String ENDHeight, String accHeight,
+			String TargetDist, String TargetHeight, boolean isTurn) {
 		double yudu;
 
 		if (isTurn) {
@@ -208,53 +208,62 @@ public class NormalCalParmsService {
 		} else {
 			yudu = 10.66799998378464D;
 		}
-		double Start = CommonUtils.strToDouble(RtoStart).doubleValue();
-		double Secend = CommonUtils.strToDouble(RtoSecend).doubleValue();
-		double Third = CommonUtils.strToDouble(RtoThird).doubleValue();
+		double Start = CommonUtils.strToDouble(SecendStart).doubleValue();
+		double Secend = CommonUtils.strToDouble(SecendEnd).doubleValue();
+		double END = CommonUtils.strToDouble(ENDHeight).doubleValue();
 		double Height = CommonUtils.strToDouble(accHeight).doubleValue();
-		double Target = CommonUtils.strToDouble(RtoTarget).doubleValue();
-		double GrossHeight = CommonUtils.strToDouble(grossHeight).doubleValue();
+		double Target = CommonUtils.strToDouble(TargetDist).doubleValue();
+		double GrossHeight = CommonUtils.strToDouble(TargetHeight).doubleValue();
 		double h = 0.0D;
 		double netHeight = 0.0D;
 		double resHeight = 0.0D;
+		double x = (37500 - Secend) * (Secend - Start) * 0.008
+				/ (END - 300 - ((Height - Start * 0.008) - (Secend - Start) * 0.008));
 		String location = "障碍物位于??";
 
-		double h0 = (Secend - Start) * 0.8D / 100.0D;
+		double h0 = Start * 0.8D / 100.0D;
 
 		double netHeight0 = Height - h0;
-		if (Target < Secend) {
-			h = (Target - Start) * 0.8D / 100.0D;
+		if (Target < Start) {
+			h = Target * 0.8D / 100.0D;
 
 			netHeight = GrossHeight - h;
 
 			resHeight = netHeight - yudu;
 			location = "障碍物位于爬升二段";
 		}
-		if ((Secend <= Target) && (Target <= Third)) {
-			netHeight = GrossHeight - h0;
+		if ((Start <= Target) && (Target <= Secend + x)) {
+			netHeight = Height - h0;
 
 			resHeight = netHeight - yudu;
 			location = "障碍物位于改平加速段";
 		}
-		if (Target > Third) {
-			h = (Target - Third + Secend - Start) * 0.8D / 100.0D;
-
+		if ((Target > Secend + x) && (Target < 37500)) {
+			h = x * 0.8 / 100 + (Secend - Start) * 0.8 / 100 + h0 + (Target - x - Secend) * 0.8 / 100;
 			netHeight = GrossHeight - h;
+
+			resHeight = netHeight - yudu;
+			location = "障碍物位于爬升四段";
+		}
+		if (Target >= 37500) {
+
+			netHeight = GrossHeight - 300;
 
 			resHeight = netHeight - yudu;
 			location = "障碍物位于最后爬升段";
 		}
 		return
 
-		"  结果：\n        35ft点到参考0点水平距离为：" + CommonUtils.doubleToStr(Double.valueOf(Start), Integer.valueOf(0))
-				+ "米\n        改平开始点到参考0点距离为：" + CommonUtils.doubleToStr(Double.valueOf(Secend), Integer.valueOf(0))
-				+ "米\n        改平结束点到参考0点距离为：" + CommonUtils.doubleToStr(Double.valueOf(Third), Integer.valueOf(0))
+		"  结果：\n        35ft点到改平开始点水平距离为：" + CommonUtils.doubleToStr(Double.valueOf(Start), Integer.valueOf(0))
+				+ "米\n        35ft点到改平结束点水平距离为： " + CommonUtils.doubleToStr(Double.valueOf(Secend), Integer.valueOf(0))
+				+ "米\n        37.5km总高为：" + CommonUtils.doubleToStr(Double.valueOf(END), Integer.valueOf(0))
 				+ "米\n        改平总高为：" + CommonUtils.doubleToStr(Double.valueOf(Height), Integer.valueOf(1))
 				+ "米   ;  改平净高为：" + CommonUtils.doubleToStr(Double.valueOf(netHeight0), Integer.valueOf(1))
 				+ "米\n        " + location + "\n        飞机飞至该处的飞行总高为："
 				+ CommonUtils.doubleToStr(Double.valueOf(GrossHeight), Integer.valueOf(1)) + "米\n        飞机飞至该处的飞行净高为："
 				+ CommonUtils.doubleToStr(Double.valueOf(netHeight), Integer.valueOf(1)) + "米\n        该处的障碍物限制高为："
-				+ CommonUtils.doubleToStr(Double.valueOf(resHeight), Integer.valueOf(1)) + "米";
+				+ CommonUtils.doubleToStr(Double.valueOf(resHeight), Integer.valueOf(1)) + "米\n        净水平距离为："
+				+ CommonUtils.doubleToStr(Double.valueOf(Secend + x), Integer.valueOf(1)) + "米";
 	}
 
 	public String arcLengthToOther(String R, String ARCLength) {

@@ -933,19 +933,19 @@ public class NormalCalUI implements ActionListener {
 		}
 		if (temp.equals(this.overOBSMenuItem)) {
 			this.clearButton.doClick();
-			this.parmName1.setText("REF0到35ft点距离");
+			this.parmName1.setText("35ft距改平开始");
 			this.parmName2.setVisible(true);
 			this.parmText2.setVisible(true);
-			this.parmName2.setText("REF0距改平开始");
+			this.parmName2.setText("35ft距改平结束");
 			this.parmName3.setVisible(true);
 			this.parmText3.setVisible(true);
-			this.parmName3.setText("REF0距改平结束");
+			this.parmName3.setText("37.5km点总高");
 			this.parmName4.setVisible(true);
 			this.parmText4.setVisible(true);
 			this.parmName4.setText("改平高");
 			this.parmName5.setVisible(true);
 			this.parmText5.setVisible(true);
-			this.parmName5.setText("目标到REF0距离");
+			this.parmName5.setText("目标到35ft距离");
 			this.parmName6.setVisible(true);
 			this.parmText6.setVisible(true);
 			this.parmName6.setText("在该点飞行总高");
