@@ -12,10 +12,10 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
 public class Database {
-	String DirLocation = "C:/Users/Administrator/Documents/java";
-	String ACInfoLocation = "C:/Users/Administrator/Documents/java/AC_Data.txt";
-	String FRInfoLocation = "C:/Users/Administrator/Documents/java/FR_Data.txt";
-	String PassgerInfoLocation = "C:/Users/Administrator/Documents/java/ADC_Data.txt";
+	String DirLocation = "C:/Users/public/Documents/java";
+	String ACInfoLocation = "C:/Users/public/Documents/java/AC_Data.txt";
+	String FRInfoLocation = "C:/Users/public/Documents/java/FR_Data.txt";
+	String PassgerInfoLocation = "C:/Users/public/Documents/java/ADC_Data.txt";
 
 	public ArrayList<String> getAC() {
 		ArrayList<String> aircraft = new ArrayList<String>();
