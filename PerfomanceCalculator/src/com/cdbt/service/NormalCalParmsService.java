@@ -340,17 +340,38 @@ public class NormalCalParmsService {
 			K = 171233 * Math.pow(((288 + var) - 0.00198 * alt), 0.5) / Math.pow((288 - 0.00198 * alt), 2.628);
 			TAS = ias * K;
 			R = 3431 * Math.tan(turnpd * Math.PI / 180) / (Math.PI * TAS);
+			if (R > 3) {
+				R = 3;
+			}
 			r = TAS / (20 * Math.PI * R) * 1.852;
 			TAS = TAS * 1.852;
 		} else {
 			K = 171233 * Math.pow(((288 + var) - 0.006496 * alt), 0.5) / Math.pow((288 - 0.006496 * alt), 2.628);
 			TAS = ias * K;
 			R = 6355 * Math.tan(turnpd * Math.PI / 180) / (Math.PI * TAS);
+			if (R > 3) {
+				R = 3;
+			}
 			r = TAS / (20 * Math.PI * R);
 		}
+		double w = 12 * alt / 1000 + 87;
+		double E30 = 30 / R * w / 3600;
+		double E60 = 60 / R * w / 3600;
+		double E90 = 90 / R * w / 3600;
+		double E120 = 120 / R * w / 3600;
+		double E150 = 150 / R * w / 3600;
+		double E180 = 180 / R * w / 3600;
+		double r0 = Math.pow(r * r + E90 * E90, 0.5);
+		double r1 = r + E90;
 		return "结果：\n       真空速为： " + CommonUtils.doubleToStr(TAS, 2) + " km/h = "
 				+ CommonUtils.doubleToStr(TAS / 1.852, 2) + " kn\n       K值为：" + CommonUtils.doubleToStr(K, 4)
-				+ "\n       转弯率为：" + CommonUtils.doubleToStr(R, 3) + " °/s\n       转弯半径为："
-				+ CommonUtils.doubleToStr(r, 3) + " km";
+				+ "\n       转弯率R为：" + CommonUtils.doubleToStr(R, 3) + " °/s\n       转弯半径r为："
+				+ CommonUtils.doubleToStr(r, 3) + " km\n      风速W为：" + CommonUtils.doubleToStr(w, 3)
+				+ " km/h\n      (r^2+E^2)^1/2 = " + CommonUtils.doubleToStr(r0, 3) + " km\n      r+E= "
+				+ CommonUtils.doubleToStr(r1, 3) + " km\n      E30为：" + CommonUtils.doubleToStr(E30, 3)
+				+ " km\n      E60为：" + CommonUtils.doubleToStr(E60, 3) + " km\n      E90为："
+				+ CommonUtils.doubleToStr(E90, 3) + " km\n      E120为：" + CommonUtils.doubleToStr(E120, 3)
+				+ " km\n      E150为：" + CommonUtils.doubleToStr(E150, 3) + " km\n      E180为："
+				+ CommonUtils.doubleToStr(E180, 3) + " km";
 	}
 }
