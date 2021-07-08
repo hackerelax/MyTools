@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -74,6 +75,11 @@ public class NormalCalUI implements ActionListener {
 	private JRadioButtonMenuItem angleMenuItem;
 	private JRadioButtonMenuItem bhqMenuItem;
 	private JRadioButtonMenuItem iastotas;
+	private JPanel InputPanel;
+	private JPanel resultPanel;
+	private JRadioButton RadioButton1;
+	private JRadioButton RadioButton2;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -100,7 +106,7 @@ public class NormalCalUI implements ActionListener {
 		frame.setBounds(100, 100, 550, 490);
 		frame.setDefaultCloseOperation(2);
 
-		JPanel InputPanel = new JPanel();
+		InputPanel = new JPanel();
 		InputPanel.setBackground(Color.LIGHT_GRAY);
 		InputPanel.setBounds(10, 10, 514, 185);
 		frame.getContentPane().add(InputPanel);
@@ -224,7 +230,8 @@ public class NormalCalUI implements ActionListener {
 				NormalCalUI.this.parmText6.selectAll();
 			}
 		});
-		JPanel resultPanel = new JPanel();
+
+		resultPanel = new JPanel();
 		resultPanel.setBackground(Color.LIGHT_GRAY);
 		resultPanel.setBounds(10, 205, 514, 216);
 		frame.getContentPane().add(resultPanel);
@@ -244,6 +251,21 @@ public class NormalCalUI implements ActionListener {
 		this.resultName.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		this.resultName.setHorizontalAlignment(0);
 		resultPanel.add(this.resultName);
+
+		RadioButton1 = new JRadioButton("37.5在改平结束前");
+		RadioButton1.setVisible(false);
+		buttonGroup.add(RadioButton1);
+		RadioButton1.setFont(new Font("新宋体", Font.PLAIN, 12));
+		RadioButton1.setBounds(377, 64, 127, 23);
+		resultPanel.add(RadioButton1);
+
+		RadioButton2 = new JRadioButton("37.5在改平结束后");
+		buttonGroup.add(RadioButton2);
+		RadioButton2.setVisible(false);
+		RadioButton2.setSelected(true);
+		RadioButton2.setFont(new Font("新宋体", Font.PLAIN, 12));
+		RadioButton2.setBounds(377, 88, 127, 23);
+		resultPanel.add(RadioButton2);
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -366,7 +388,18 @@ public class NormalCalUI implements ActionListener {
 		ButtonGroup unitsGroup = new ButtonGroup();
 		unitsGroup.add(this.standerdMenuItem);
 		unitsGroup.add(this.engMenuItem);
+		this.RadioButton2.addActionListener(new ActionListener() {
 
+			public void actionPerformed(ActionEvent e) {
+				parmName3.setText("37.5km点总高");
+			}
+		});
+		this.RadioButton1.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				parmName3.setText("45.0km点总高");
+			}
+		});
 		frame.getContentPane().setLayout(null);
 
 		this.addResultName = new JLabel("");
@@ -585,7 +618,7 @@ public class NormalCalUI implements ActionListener {
 						&& (CommonUtils.ifStringIsDigital(parm6)) && (!parm6.isEmpty())
 						&& (NormalCalUI.this.parmName4.getText().equals("改平高"))) {
 					String result = parmsService.getObstacle(parm1, parm2, parm3, parm4, parm5, parm6,
-							NormalCalUI.this.isTurn.isSelected());
+							NormalCalUI.this.isTurn.isSelected(), RadioButton2.isSelected());
 					NormalCalUI.this.textArea.setText(result);
 				}
 				System.gc();
@@ -754,6 +787,8 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_3.setVisible(false);
 			this.addButton_2.setVisible(false);
 			this.addButton_1.setVisible(false);
+			this.RadioButton1.setVisible(false);
+			this.RadioButton2.setVisible(false);
 		}
 		if (temp.equals(this.tempMenuItem)) {
 			this.clearButton.doClick();
@@ -784,6 +819,8 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_3.setVisible(false);
 			this.addButton_2.setVisible(false);
 			this.addButton_1.setVisible(false);
+			this.RadioButton1.setVisible(false);
+			this.RadioButton2.setVisible(false);
 		}
 		if (temp.equals(this.speedMenuItem)) {
 			this.clearButton.doClick();
@@ -816,6 +853,8 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_3.setVisible(false);
 			this.addButton_2.setVisible(false);
 			this.addButton_1.setVisible(false);
+			this.RadioButton1.setVisible(false);
+			this.RadioButton2.setVisible(false);
 		}
 		if (temp.equals(this.climbMenuItem)) {
 			this.clearButton.doClick();
@@ -843,6 +882,8 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_3.setVisible(false);
 			this.addButton_2.setVisible(false);
 			this.addButton_1.setVisible(false);
+			this.RadioButton1.setVisible(false);
+			this.RadioButton2.setVisible(false);
 		}
 		if (temp.equals(this.chazhifaMenuItem)) {
 			this.clearButton.doClick();
@@ -873,6 +914,8 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_3.setVisible(false);
 			this.addButton_2.setVisible(false);
 			this.addButton_1.setVisible(false);
+			this.RadioButton1.setVisible(false);
+			this.RadioButton2.setVisible(false);
 		}
 		if (temp.equals(this.obsMenuItem)) {
 			this.clearButton.doClick();
@@ -904,6 +947,8 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_2.setText("获取距离");
 			this.addButton_1.setVisible(true);
 			this.addButton_1.setText("获取高度");
+			this.RadioButton1.setVisible(false);
+			this.RadioButton2.setVisible(false);
 		}
 		if (temp.equals(this.rwyCondMenuItem)) {
 			this.clearButton.doClick();
@@ -930,6 +975,8 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_2.setVisible(false);
 			this.addButton_1.setVisible(false);
 			this.isTurn.setVisible(false);
+			this.RadioButton1.setVisible(false);
+			this.RadioButton2.setVisible(false);
 		}
 		if (temp.equals(this.overOBSMenuItem)) {
 			this.clearButton.doClick();
@@ -960,6 +1007,8 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_2.setVisible(false);
 			this.addButton_1.setVisible(false);
 			this.isTurn.setVisible(true);
+			this.RadioButton1.setVisible(true);
+			this.RadioButton2.setVisible(true);
 		}
 		if (temp.equals(this.ARCFunctionMenuItem)) {
 			this.clearButton.doClick();
@@ -991,6 +1040,8 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_2.setText("已知夹角");
 			this.addButton_1.setVisible(true);
 			this.addButton_1.setText("已知弧长");
+			this.RadioButton1.setVisible(false);
+			this.RadioButton2.setVisible(false);
 		}
 		if (temp.equals(this.bhqMenuItem)) {
 			this.clearButton.doClick();
@@ -1020,6 +1071,8 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_2.setVisible(false);
 			this.addButton_1.setVisible(false);
 			this.isTurn.setVisible(false);
+			this.RadioButton1.setVisible(false);
+			this.RadioButton2.setVisible(false);
 
 		}
 		if (temp.equals(this.iastotas)) {
@@ -1049,7 +1102,8 @@ public class NormalCalUI implements ActionListener {
 			this.addButton_2.setVisible(false);
 			this.addButton_1.setVisible(false);
 			this.isTurn.setVisible(false);
-
+			this.RadioButton1.setVisible(false);
+			this.RadioButton2.setVisible(false);
 		}
 	}
 }

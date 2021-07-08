@@ -200,9 +200,8 @@ public class NormalCalParmsService {
 	}
 
 	public String getObstacle(String SecendStart, String SecendEnd, String ENDHeight, String accHeight,
-			String TargetDist, String TargetHeight, boolean isTurn) {
+			String TargetDist, String TargetHeight, boolean isTurn, boolean Normal) {
 		double yudu;
-
 		if (isTurn) {
 			yudu = 15.239999976835199D;
 		} else {
@@ -217,44 +216,66 @@ public class NormalCalParmsService {
 		double h = 0.0D;
 		double netHeight = 0.0D;
 		double resHeight = 0.0D;
-		double x = (37500 - Secend) * (Secend - Start) * 0.008
-				/ (END - 300 - ((Height - Start * 0.008) - (Secend - Start) * 0.008));
+		double x = 0;
 		String location = "障碍物位于??";
-
 		double h0 = Start * 0.8D / 100.0D;
-
 		double netHeight0 = Height - h0;
-		if (Target < Start) {
-			h = Target * 0.8D / 100.0D;
+		if (Normal) {
+			x = (37500 - Secend) * (Secend - Start) * 0.008
+					/ (END - 300 - ((Height - Start * 0.008) - (Secend - Start) * 0.008));
+			if (Target < Start) {
+				h = Target * 0.8D / 100.0D;
 
-			netHeight = GrossHeight - h;
+				netHeight = GrossHeight - h;
 
-			resHeight = netHeight - yudu;
-			location = "障碍物位于爬升二段";
+				resHeight = netHeight - yudu;
+				location = "障碍物位于爬升二段";
+			}
+			if ((Start <= Target) && (Target <= Secend + x)) {
+				netHeight = Height - h0;
+
+				resHeight = netHeight - yudu;
+				location = "障碍物位于改平加速段";
+			}
+			if ((Target > Secend + x) && (Target < 37500)) {
+				h = x * 0.8 / 100 + (Secend - Start) * 0.8 / 100 + h0 + (Target - x - Secend) * 0.8 / 100;
+				netHeight = GrossHeight - h;
+
+				resHeight = netHeight - yudu;
+				location = "障碍物位于最后爬升段";
+			}
+			if (Target >= 37500) {
+
+				netHeight = GrossHeight - 300;
+
+				resHeight = netHeight - yudu;
+				location = "障碍物位于最后爬升段";
+			}
+		} else {
+			x = ((300 - h0) * 45000 - Secend * (300 - h0)) / (END - 300 - (Height - h0) + 300 - h0);
+			if (Target < Start) {
+				h = Target * 0.8D / 100.0D;
+
+				netHeight = GrossHeight - h;
+
+				resHeight = netHeight - yudu;
+				location = "障碍物位于爬升二段";
+			}
+			if ((Start <= Target) && (Target <= Secend + x)) {
+				netHeight = Height - h0;
+
+				resHeight = netHeight - yudu;
+				location = "障碍物位于改平加速段";
+			}
+			if (Target > Secend + x) {
+
+				netHeight = GrossHeight - 300;
+
+				resHeight = netHeight - yudu;
+				location = "障碍物位于最后爬升段";
+			}
 		}
-		if ((Start <= Target) && (Target <= Secend + x)) {
-			netHeight = Height - h0;
-
-			resHeight = netHeight - yudu;
-			location = "障碍物位于改平加速段";
-		}
-		if ((Target > Secend + x) && (Target < 37500)) {
-			h = x * 0.8 / 100 + (Secend - Start) * 0.8 / 100 + h0 + (Target - x - Secend) * 0.8 / 100;
-			netHeight = GrossHeight - h;
-
-			resHeight = netHeight - yudu;
-			location = "障碍物位于爬升四段";
-		}
-		if (Target >= 37500) {
-
-			netHeight = GrossHeight - 300;
-
-			resHeight = netHeight - yudu;
-			location = "障碍物位于最后爬升段";
-		}
-		return
-
-		"  结果：\n        35ft点到改平开始点水平距离为：" + CommonUtils.doubleToStr(Double.valueOf(Start), Integer.valueOf(0))
+		return "  结果：\n        35ft点到改平开始点水平距离为：" + CommonUtils.doubleToStr(Double.valueOf(Start), Integer.valueOf(0))
 				+ "米\n        35ft点到改平结束点水平距离为： " + CommonUtils.doubleToStr(Double.valueOf(Secend), Integer.valueOf(0))
 				+ "米\n        37.5km总高为：" + CommonUtils.doubleToStr(Double.valueOf(END), Integer.valueOf(0))
 				+ "米\n        改平总高为：" + CommonUtils.doubleToStr(Double.valueOf(Height), Integer.valueOf(1))
@@ -264,6 +285,7 @@ public class NormalCalParmsService {
 				+ CommonUtils.doubleToStr(Double.valueOf(netHeight), Integer.valueOf(1)) + "米\n        该处的障碍物限制高为："
 				+ CommonUtils.doubleToStr(Double.valueOf(resHeight), Integer.valueOf(1)) + "米\n        净水平距离为："
 				+ CommonUtils.doubleToStr(Double.valueOf(Secend + x), Integer.valueOf(1)) + "米";
+
 	}
 
 	public String arcLengthToOther(String R, String ARCLength) {
@@ -336,21 +358,44 @@ public class NormalCalParmsService {
 		double TAS;
 		double R;
 		double r;
+		double w;
 		if (eng) {
 			K = 171233 * Math.pow(((288 + var) - 0.00198 * alt), 0.5) / Math.pow((288 - 0.00198 * alt), 2.628);
 			TAS = ias * K;
 			R = 3431 * Math.tan(turnpd * Math.PI / 180) / (Math.PI * TAS);
+			if (R > 3) {
+				R = 3;
+			}
 			r = TAS / (20 * Math.PI * R) * 1.852;
 			TAS = TAS * 1.852;
+			w = 12 * alt / 3.2808 / 1000 + 87;
 		} else {
 			K = 171233 * Math.pow(((288 + var) - 0.006496 * alt), 0.5) / Math.pow((288 - 0.006496 * alt), 2.628);
 			TAS = ias * K;
 			R = 6355 * Math.tan(turnpd * Math.PI / 180) / (Math.PI * TAS);
+			if (R > 3) {
+				R = 3;
+			}
 			r = TAS / (20 * Math.PI * R);
+			w = 12 * alt / 1000 + 87;
 		}
+		double E30 = 30 / R * w / 3600;
+		double E60 = 60 / R * w / 3600;
+		double E90 = 90 / R * w / 3600;
+		double E120 = 120 / R * w / 3600;
+		double E150 = 150 / R * w / 3600;
+		double E180 = 180 / R * w / 3600;
+		double r0 = Math.pow(r * r + E90 * E90, 0.5);
+		double r1 = r + E90;
 		return "结果：\n       真空速为： " + CommonUtils.doubleToStr(TAS, 2) + " km/h = "
 				+ CommonUtils.doubleToStr(TAS / 1.852, 2) + " kn\n       K值为：" + CommonUtils.doubleToStr(K, 4)
-				+ "\n       转弯率为：" + CommonUtils.doubleToStr(R, 3) + " °/s\n       转弯半径为："
-				+ CommonUtils.doubleToStr(r, 3) + " km";
+				+ "\n       转弯率R为：" + CommonUtils.doubleToStr(R, 3) + " °/s\n       转弯半径r为："
+				+ CommonUtils.doubleToStr(r, 3) + " km\n      风速W为：" + CommonUtils.doubleToStr(w, 3)
+				+ " km/h\n      (r^2+E^2)^1/2 = " + CommonUtils.doubleToStr(r0, 3) + " km\n      r+E= "
+				+ CommonUtils.doubleToStr(r1, 3) + " km\n      E30为：" + CommonUtils.doubleToStr(E30, 3)
+				+ " km\n      E60为：" + CommonUtils.doubleToStr(E60, 3) + " km\n      E90为："
+				+ CommonUtils.doubleToStr(E90, 3) + " km\n      E120为：" + CommonUtils.doubleToStr(E120, 3)
+				+ " km\n      E150为：" + CommonUtils.doubleToStr(E150, 3) + " km\n      E180为："
+				+ CommonUtils.doubleToStr(E180, 3) + " km";
 	}
 }

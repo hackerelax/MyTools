@@ -31,6 +31,7 @@ public class FuelCalParmsService {
 			String cruiseFuelFlow, String altClimbFuel, String altDescFuel, String altClimbDist, String altDescDist,
 			String altClimbTime, String altDescTime, String altTAS, String altFuelFlow, String altDist,
 			String waiFuelflow, boolean b, boolean engUnit, String crewWt) {
+		// 名称0-空重1-最大起飞重量2-最大着陆重量3-总人数4-最大可用燃油5-最大商载6-行李舱最大载量7-升限8-最少机组9-最大机组10-飞行区等级11
 		String[] ac = this.AC_Info.split("-");
 		String[] fr = this.FR_Info.split("-");
 		String[] pass = this.Pass_Info.split("-");
@@ -39,23 +40,23 @@ public class FuelCalParmsService {
 			crewNum = ac[10];
 		}
 		if (CommonUtils.strToDouble(tow).doubleValue() > CommonUtils.strToDouble(ac[2]).doubleValue()) {
-			return "  该机型的起飞重量超出其结构限重！,   该机型的起飞重量超出其结构限重！";
+			return "  该机型的起飞重量超出其结构限重！,  该机型的起飞重量超出其起飞结构限重！";
 		}
 		if (CommonUtils.strToDouble(tow).doubleValue() <= CommonUtils.strToDouble(ac[1]).doubleValue()) {
 			return "  该机型的起飞重量小于其空机重！,  该机型的起飞重量小于其空机重！";
 		}
-		if (CommonUtils.strToDouble(pCount).doubleValue() > CommonUtils.strToDouble(ac[3]).doubleValue()) {
-			return "  该机型的乘客数超出其座位数！,  该机型的乘客数超出其座位数！";
+		if (CommonUtils.strToDouble(pCount).doubleValue() > CommonUtils.strToDouble(ac[4]).doubleValue()) {
+			return "  该机型的乘客数超出最大座位数！, 该机型的乘客数超出最大座位数！";
 		}
 		if (CommonUtils.strToDouble(cargo).doubleValue() > CommonUtils.strToDouble(ac[7]).doubleValue()) {
 			return "  该机型的货物载量超出其货仓最大载量！,  该机型的货物载量超出其货仓最大载量！";
 		}
 		if (CommonUtils.strToDouble(pCount).doubleValue() * CommonUtils.strToDouble(pass[1]).doubleValue()
-				+ CommonUtils.strToDouble(cargo).doubleValue() > CommonUtils.strToDouble(ac[5]).doubleValue()) {
-			double c = Math.floor(CommonUtils.strToDouble(ac[5]).doubleValue()
+				+ CommonUtils.strToDouble(cargo).doubleValue() > CommonUtils.strToDouble(ac[6]).doubleValue()) {
+			double c = Math.floor(CommonUtils.strToDouble(ac[6]).doubleValue()
 					- CommonUtils.strToDouble(pCount).doubleValue() * CommonUtils.strToDouble(pass[1]).doubleValue());
 			double p = Math
-					.floor((CommonUtils.strToDouble(ac[5]).doubleValue() - CommonUtils.strToDouble(cargo).doubleValue())
+					.floor((CommonUtils.strToDouble(ac[6]).doubleValue() - CommonUtils.strToDouble(cargo).doubleValue())
 							/ CommonUtils.strToDouble(pass[1]).doubleValue());
 			return "  已超出最大载量，调整货物为：" + CommonUtils.doubleToStr(Double.valueOf(c), Integer.valueOf(0)) + "kg、或者减少人数为："
 					+ CommonUtils.doubleToStr(Double.valueOf(p), Integer.valueOf(0)) + "人,  已超出最大载量，调整货物为："
@@ -96,10 +97,11 @@ public class FuelCalParmsService {
 			dAltTAS = Double.valueOf(dAltTAS.doubleValue() * 1.852D);
 			dWaiFuelflow = Double.valueOf(dWaiFuelflow.doubleValue() / 2.205D);
 		}
+		double payload = dCrewWt * CommonUtils.strToDouble(crewNum).doubleValue()
+				+ CommonUtils.strToDouble(cargo).doubleValue()
+				+ CommonUtils.strToDouble(pass[1]).doubleValue() * CommonUtils.strToDouble(pCount).doubleValue();
 		double totalFuel = CommonUtils.strToDouble(tow).doubleValue() - CommonUtils.strToDouble(ac[1]).doubleValue()
-				- dCrewWt * CommonUtils.strToDouble(crewNum).doubleValue()
-				- CommonUtils.strToDouble(cargo).doubleValue()
-				- CommonUtils.strToDouble(pass[1]).doubleValue() * CommonUtils.strToDouble(pCount).doubleValue();
+				- payload;
 		double altFuel;
 		double altTime;
 		if (dAltDist == 0) {
@@ -134,12 +136,12 @@ public class FuelCalParmsService {
 		double totalFuelComsumtion = dClimbFuel.doubleValue() + dDescFuel.doubleValue() + cruiseFuel;
 
 		double percent = CommonUtils.strToDouble(pCount).doubleValue() * 100.0D
-				/ CommonUtils.strToDouble(ac[3]).doubleValue();
+				/ (CommonUtils.strToDouble(ac[4]).doubleValue() - CommonUtils.strToDouble(crewNum));
 		if (totalFuel + CommonUtils.strToDouble(pCount).doubleValue() * CommonUtils.strToDouble(pass[1]).doubleValue()
 				+ CommonUtils.strToDouble(cargo).doubleValue() > CommonUtils.strToDouble(ac[6]).doubleValue()) {
 			return "  装载已超出该机型的最大载量，请检查！,  装载已超出该机型的最大载量，请检查！";
 		}
-		if (totalFuel > CommonUtils.strToDouble(ac[4]).doubleValue()) {
+		if (totalFuel > CommonUtils.strToDouble(ac[5]).doubleValue()) {
 			return " 总油量已超出该机型的最大载油量，请检查！,  总油量已超出该机型的最大载油量，请检查！";
 		}
 		return
@@ -154,7 +156,8 @@ public class FuelCalParmsService {
 				+ CommonUtils.doubleToStr(Double.valueOf(totalFuel), Integer.valueOf(2)) + "kg\n        备份油量："
 				+ CommonUtils.doubleToStr(Double.valueOf(altFuel), Integer.valueOf(2)) + "kg\n        主航程用油："
 				+ CommonUtils.doubleToStr(Double.valueOf(totalFuelComsumtion), Integer.valueOf(2)) + "kg\n        巡航用油："
-				+ CommonUtils.doubleToStr(Double.valueOf(cruiseFuel), Integer.valueOf(2)) + "kg\n  其他结果：\n        客座率："
+				+ CommonUtils.doubleToStr(Double.valueOf(cruiseFuel), Integer.valueOf(2)) + "kg\n  其他结果：\n        业载量："
+				+ CommonUtils.doubleToStr(Double.valueOf(payload), Integer.valueOf(2)) + "kg\n        客座率："
 				+ CommonUtils.doubleToStr(Double.valueOf(percent), Integer.valueOf(1)) + "%";
 	}
 
@@ -195,23 +198,28 @@ public class FuelCalParmsService {
 		this.Pass_Info = result;
 	}
 
-	public boolean addAC(String ac, String bow, String mtow, String seat, String maxFuel, String maxPayload,
-			String maxTotalload, String cargo, String alt) throws Exception {
+	public boolean addAC(String ac, String bow, String mtow, String mldw, String seat, String maxFuel,
+			String maxPayload, String cargo, String alt, String minCrew, String maxCrew, String level)
+			throws Exception {
 		ArrayList<String> arr = new ArrayList<String>();
 		StringBuffer buffer = new StringBuffer();
-		if ((CommonUtils.ifStringIsDigital(bow)) && (CommonUtils.ifStringIsDigital(mtow))
-				&& (CommonUtils.ifStringIsDigital(seat)) && (CommonUtils.ifStringIsDigital(maxFuel))
-				&& (CommonUtils.ifStringIsDigital(maxPayload)) && (CommonUtils.ifStringIsDigital(maxTotalload))
-				&& (CommonUtils.ifStringIsDigital(cargo)) && (CommonUtils.ifStringIsDigital(alt))) {
+		if (CommonUtils.ifStringIsDigital(bow) && (CommonUtils.ifStringIsDigital(mtow))
+				&& CommonUtils.ifStringIsDigital(mldw) && (CommonUtils.ifStringIsDigital(seat))
+				&& (CommonUtils.ifStringIsDigital(maxFuel)) && (CommonUtils.ifStringIsDigital(maxPayload))
+				&& (CommonUtils.ifStringIsDigital(cargo)) && (CommonUtils.ifStringIsDigital(alt))
+				&& CommonUtils.ifStringIsDigital(minCrew) && (CommonUtils.ifStringIsDigital(maxCrew))) {
 			arr.add(ac);
 			arr.add(bow);
 			arr.add(mtow);
+			arr.add(mldw);
 			arr.add(seat);
 			arr.add(maxFuel);
 			arr.add(maxPayload);
-			arr.add(maxTotalload);
 			arr.add(cargo);
 			arr.add(alt);
+			arr.add(minCrew);
+			arr.add(maxCrew);
+			arr.add(level);
 			for (int i = 0; i < arr.size(); i++) {
 				buffer.append((String) arr.get(i));
 				buffer.append("-");
@@ -230,8 +238,8 @@ public class FuelCalParmsService {
 		return false;
 	}
 
-	public boolean editeAC(String name, String text, String text2, String text3, String text4, String text5,
-			String text6, String text7, String text8) {
+	public boolean editeAC(String name, String text, String text1, String text2, String text3, String text4,
+			String text5, String text6, String text7, String text8, String text9, String text10) {
 		System.out.println(name + text);
 		return false;
 	}
@@ -273,18 +281,18 @@ public class FuelCalParmsService {
 		if (b) {
 			crewNum = ac[10];
 		}
-		if (CommonUtils.strToDouble(pCount).doubleValue() > CommonUtils.strToDouble(ac[3]).doubleValue()) {
+		if (CommonUtils.strToDouble(pCount).doubleValue() > CommonUtils.strToDouble(ac[4]).doubleValue()) {
 			return "  该机型的乘客数超出其座位数！,  该机型的乘客数超出其座位数！";
 		}
 		if (CommonUtils.strToDouble(cargo).doubleValue() > CommonUtils.strToDouble(ac[7]).doubleValue()) {
 			return "  该机型的货物载量超出其货仓最大载量！,  该机型的货物载量超出其货仓最大载量！";
 		}
 		if (CommonUtils.strToDouble(pCount).doubleValue() * CommonUtils.strToDouble(pass[1]).doubleValue()
-				+ CommonUtils.strToDouble(cargo).doubleValue() > CommonUtils.strToDouble(ac[5]).doubleValue()) {
-			double c = Math.floor(CommonUtils.strToDouble(ac[5]).doubleValue()
+				+ CommonUtils.strToDouble(cargo).doubleValue() > CommonUtils.strToDouble(ac[6]).doubleValue()) {
+			double c = Math.floor(CommonUtils.strToDouble(ac[6]).doubleValue()
 					- CommonUtils.strToDouble(pCount).doubleValue() * CommonUtils.strToDouble(pass[1]).doubleValue());
 			double p = Math
-					.floor((CommonUtils.strToDouble(ac[5]).doubleValue() - CommonUtils.strToDouble(cargo).doubleValue())
+					.floor((CommonUtils.strToDouble(ac[6]).doubleValue() - CommonUtils.strToDouble(cargo).doubleValue())
 							/ CommonUtils.strToDouble(pass[1]).doubleValue());
 			return "  已超出最大载量，调整货物为：" + CommonUtils.doubleToStr(Double.valueOf(c), Integer.valueOf(0)) + "kg、或者减少人数为："
 					+ CommonUtils.doubleToStr(Double.valueOf(p), Integer.valueOf(0)) + "人,  已超出最大载量，调整货物为："
@@ -358,14 +366,13 @@ public class FuelCalParmsService {
 			}
 		}
 		double totalFuel = totalFuelComsumtion + altFuel;
-
-		double tow = totalFuel + CommonUtils.strToDouble(ac[1]).doubleValue()
-				+ dCrewWt * CommonUtils.strToDouble(crewNum).doubleValue()
+		double payload = dCrewWt * CommonUtils.strToDouble(crewNum).doubleValue()
 				+ CommonUtils.strToDouble(cargo).doubleValue()
 				+ CommonUtils.strToDouble(pass[1]).doubleValue() * CommonUtils.strToDouble(pCount).doubleValue();
+		double tow = totalFuel + CommonUtils.strToDouble(ac[1]).doubleValue() + payload;
 
 		double percent = CommonUtils.strToDouble(pCount).doubleValue() * 100.0D
-				/ CommonUtils.strToDouble(ac[3]).doubleValue();
+				/ (CommonUtils.strToDouble(ac[4]).doubleValue() - CommonUtils.strToDouble(crewNum));
 		if (tow > CommonUtils.strToDouble(ac[2]).doubleValue()) {
 			return "  该机型的起飞重量超出其结构限重！,   该机型的起飞重量超出其结构限重！";
 		}
@@ -376,7 +383,7 @@ public class FuelCalParmsService {
 				+ CommonUtils.strToDouble(cargo).doubleValue() > CommonUtils.strToDouble(ac[6]).doubleValue()) {
 			return "  装载已超出该机型的最大载量，请检查！,  装载已超出该机型的最大载量，请检查！";
 		}
-		if (totalFuel > CommonUtils.strToDouble(ac[4]).doubleValue()) {
+		if (totalFuel > CommonUtils.strToDouble(ac[5]).doubleValue()) {
 			return "  总油量已超出该机型的最大载油量，请检查！,  总油量已超出该机型的最大载油量，请检查！";
 		}
 		return
@@ -391,7 +398,8 @@ public class FuelCalParmsService {
 				+ CommonUtils.doubleToStr(Double.valueOf(totalFuel), Integer.valueOf(2)) + "kg\n        备份油量："
 				+ CommonUtils.doubleToStr(Double.valueOf(altFuel), Integer.valueOf(2)) + "kg\n        主航程用油："
 				+ CommonUtils.doubleToStr(Double.valueOf(totalFuelComsumtion), Integer.valueOf(2)) + "kg\n        巡航用油："
-				+ CommonUtils.doubleToStr(Double.valueOf(cruiseFuel), Integer.valueOf(2)) + "kg\n  其他结果：\n        客座率："
+				+ CommonUtils.doubleToStr(Double.valueOf(cruiseFuel), Integer.valueOf(2)) + "kg\n  其他结果：\n        业载量："
+				+ CommonUtils.doubleToStr(Double.valueOf(payload), Integer.valueOf(2)) + "kg\n        客座率："
 				+ CommonUtils.doubleToStr(Double.valueOf(percent), Integer.valueOf(1)) + "%";
 	}
 }

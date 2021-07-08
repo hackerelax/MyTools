@@ -12,10 +12,10 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
 public class Database {
-	String DirLocation = "C:/Users/Administrator/Documents/java";
-	String ACInfoLocation = "C:/Users/Administrator/Documents/java/AC_Data.txt";
-	String FRInfoLocation = "C:/Users/Administrator/Documents/java/FR_Data.txt";
-	String PassgerInfoLocation = "C:/Users/Administrator/Documents/java/ADC_Data.txt";
+	String DirLocation = "C:/Users/public/Documents/java";
+	String ACInfoLocation = "C:/Users/public/Documents/java/AC_Data.txt";
+	String FRInfoLocation = "C:/Users/public/Documents/java/FR_Data.txt";
+	String PassgerInfoLocation = "C:/Users/public/Documents/java/ADC_Data.txt";
 
 	public ArrayList<String> getAC() {
 		ArrayList<String> aircraft = new ArrayList<String>();
@@ -64,41 +64,41 @@ public class Database {
 			File file = new File(this.ACInfoLocation);
 			if (!file.exists()) {
 				file.createNewFile();
-				// 名称-空重-最大起飞重量-乘客数-最大可用燃油-最大商载-总最大载量-行李舱最大载量-升限-最少机组-最大机组
-				String k350i = "K350i-4454-6804-9-1638-1154-2334-250-10668-1-2";
-				String pc12 = "PC12-2796-4740-9-1226-1024-1849-700-9144-1-2";
-				String y12e = "Y12E-3392-5670-18-1230-1984-2138-360-7000-2-2";
-				String y12f = "Y12F-4596-8400-19-2454-3000-3622-300-7000-2-2";
-				String c90GTx = "C90GTx-3150-4581-5-1133-1046-1431-159-9144-1-2";
-				String phenom300 = "Phenom300-5150-8150-9-2428-1200-3000-260-13716-1-2";
-				String e190 = "E190-28000-50300-108-13192-12800-12800-2540-12497-2-2";
-				String c208B = "C208B-2393-3995-9-1009-1463-1618-640-7620-1-2";
-				String c172S = "C172S-755-1156-3-144-406-406-54.4-4100-1-1";
-				String kodiak100 = "KODIAK100-1712-3290-9-987-1601-1601-90-7620-1-2";
-				String da42L = "DA42L-1255-1785-3-208-530-530-75-5486-1-1";
+				// 名称-空重-最大起飞重量-最大着陆重量-总人数-最大可用燃油-最大商载-行李舱最大载量-升限-最少机组-最大机组-飞行区等级
+				String Kodiak100 = "KODIAK100-1713-3290-3034-11-972-1601-90-7620-1-2-1A";
+				String C208B = "C208B-2270-3969-3855-11-1024-1938-250-7620-1-2-1B";
+				String Pc12 = "PC12-2796-4740-4500-11-1226-1304-180-9144-1-2-2B";
+				String C90GTx = "C90GTx-3150-4581-4354-8-1167-1241-159-9144-1-2-2B";
+				String K350i = "K350i-4454-6804-6804-11-1638-1154-250-10668-1-2-2B";
+				String Dhc = "DHC6-3108-5670-5580-20-1172-2472-356-7620-1-2-2B";
+				String Y12e = "Y12E-3392-5670-5400-20-1230-1796-360-7000-2-2-2B";
+				String Y12f = "Y12F-4596-8400-8000-21-2454-3000-300-7000-2-2-3B";
+				String Ce525 = "CE525-2913-4808-4445-8-1460-897-280-12496-2-2-2A";
+				String Phenom300 = "Phenom300-5150-8150-7650-10-2428-1196-260-13716-1-2-2B";
+				String G550 = "G550-20909-41277-34155-22-18734-2812-500-15544-2-2-4C";
 				FileOutputStream os = new FileOutputStream(file);
 				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-				bw.write(k350i);
+				bw.write(Kodiak100);
 				bw.newLine();
-				bw.write(pc12);
+				bw.write(C208B);
 				bw.newLine();
-				bw.write(y12e);
+				bw.write(Pc12);
 				bw.newLine();
-				bw.write(y12f);
+				bw.write(C90GTx);
 				bw.newLine();
-				bw.write(c90GTx);
+				bw.write(K350i);
 				bw.newLine();
-				bw.write(c208B);
+				bw.write(Dhc);
 				bw.newLine();
-				bw.write(c172S);
+				bw.write(Y12e);
 				bw.newLine();
-				bw.write(kodiak100);
+				bw.write(Y12f);
 				bw.newLine();
-				bw.write(da42L);
+				bw.write(Ce525);
 				bw.newLine();
-				bw.write(phenom300);
+				bw.write(Phenom300);
 				bw.newLine();
-				bw.write(e190);
+				bw.write(G550);
 				bw.newLine();
 				bw.close();
 				System.out.println("Done!");

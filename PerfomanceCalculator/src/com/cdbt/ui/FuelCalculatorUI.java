@@ -1245,9 +1245,12 @@ public class FuelCalculatorUI implements ActionListener {
 					this.parms.getACInfo(acResult);
 					this.acText.setText(temp.getText());
 					this.basicContext.setText("  机型：" + split1[0] + "\n  基本空机重：" + split1[1] + "kg\n  最少机组人数："
-							+ split1[9] + "人\n  最多机组人数：" + split1[10] + "人\n  最大起飞重量：" + split1[2] + "kg\n  最大乘客数量： "
-							+ split1[3] + " 人\n  最大可用燃油量：" + split1[4] + "kg\n  最大商载：" + split1[5] + "kg\n  总最大载量："
-							+ split1[6] + "kg\n  行李舱最大载量： " + split1[7] + "kg\n  最大使用高度限制： " + split1[8] + "米");
+							+ split1[9] + "人\n  最多机组人数：" + split1[10] + "人\n  最大起飞重量：" + split1[2] + "kg\n  最大着陆重量： "
+							+ split1[3] + "kg\n  最大乘客数量： "
+							+ CommonUtils.doubleToStr(
+									CommonUtils.strToDouble(split1[4]) - CommonUtils.strToDouble(split1[9]), 0)
+							+ " 人\n  最大可用燃油量：" + split1[5] + "kg\n  最大商载：" + split1[6] + "kg\n  行李舱最大载量： " + split1[7]
+							+ "kg\n  最大使用高度限制： " + split1[8] + "米\n 飞行区等级： " + split1[11]);
 				}
 			}
 			for (int i = 0; i < this.frList.size(); i++) {

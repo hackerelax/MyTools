@@ -208,7 +208,7 @@ public class ACEditeUI {
 						ACEditeUI.this.mtow.getText(), ACEditeUI.this.maxSeat.getText(),
 						ACEditeUI.this.maxFuel.getText(), ACEditeUI.this.maxPayload.getText(),
 						ACEditeUI.this.maxTotalLoad.getText(), ACEditeUI.this.maxCargo.getText(),
-						ACEditeUI.this.maxAlt.getText());
+						ACEditeUI.this.maxAlt.getText(), name, name, name);
 				System.out.println(b);
 			}
 		});

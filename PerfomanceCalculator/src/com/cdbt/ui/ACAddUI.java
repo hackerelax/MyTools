@@ -184,10 +184,10 @@ public class ACAddUI {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					boolean b = ACAddUI.this.parms.addAC(ACAddUI.this.ac.getText().trim(),
-							ACAddUI.this.bow.getText().trim(), ACAddUI.this.mtow.getText().trim(),
+							ACAddUI.this.bow.getText().trim(), ACAddUI.this.mtow.getText().trim(), null,
 							ACAddUI.this.maxSeat.getText().trim(), ACAddUI.this.maxFuel.getText().trim(),
 							ACAddUI.this.maxPayload.getText().trim(), ACAddUI.this.maxTotalLoad.getText().trim(),
-							ACAddUI.this.maxCargo.getText().trim(), ACAddUI.this.maxAlt.getText().trim());
+							ACAddUI.this.maxCargo.getText().trim(), ACAddUI.this.maxAlt.getText().trim(), null, null);
 					if (b) {
 						result.setText("添加成功");
 						FuelCalculatorUI.main(null);
