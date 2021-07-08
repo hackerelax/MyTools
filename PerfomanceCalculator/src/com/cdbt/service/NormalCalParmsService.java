@@ -379,6 +379,10 @@ public class NormalCalParmsService {
 			r = TAS / (20 * Math.PI * R);
 			w = 12 * alt / 1000 + 87;
 		}
+<<<<<<< HEAD
+=======
+		double w = 12 * alt / 1000 + 87;
+>>>>>>> b97382e67ac7afb3a795ff7d7103650990b9de57
 		double E30 = 30 / R * w / 3600;
 		double E60 = 60 / R * w / 3600;
 		double E90 = 90 / R * w / 3600;
